@@ -95,7 +95,7 @@ townhall-insights-mcp-demo/
 │   ├── db.py                     # Supabase / SQLAlchemy connection
 │   └── requirements.txt
 │
-├── docker-compose.yml            # Run all services together
+├── Makefile                      # Local run targets (no Docker)
 ├── .env.example
 └── README.md
 ```
@@ -139,16 +139,24 @@ cp .env.example .env
 # Fill in: OPENAI_API_KEY, SUPABASE_URL, SUPABASE_KEY, INSIGHTS_API_URL
 ```
 
-### 3. Run with Docker Compose
+### 3. Install dependencies and run locally
+
+Using the Makefile (recommended):
 
 ```bash
-docker-compose up
+make install      # install deps for all services
+make run-api      # terminal 1: Insights API on http://localhost:8001
+make run-mcp      # terminal 2: MCP server on http://localhost:8002
+make run-agent    # terminal 3: run the agent
 ```
 
-This starts:
-- `insights_api` on `http://localhost:8001`
-- `mcp_server` on `http://localhost:8002`
-- `agent` demo on `http://localhost:8000`
+Or run everything in one terminal (API and MCP in background, agent in foreground):
+
+```bash
+make run-all
+```
+
+See `make help` for all targets.
 
 ### 4. Run services individually (with uv)
 
