@@ -1,0 +1,47 @@
+# Town Hall Insights MCP Demo — run all services
+# Start: docker-compose up
+# Services: insights_api (8001), mcp_server (8002), agent (8000 — optional UI can be added later)
+services:
+  insights_api:
+    build:
+      context: .
+      dockerfile: insights_api/Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - PORT=8001
+    env_file:
+      - .env
+
+  mcp_server:
+    build:
+      context: .
+      dockerfile: mcp_server/Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - INSIGHTS_API_URL=http://insights_api:8001
+      - MCP_PORT=8002
+    depends_on:
+      - insights_api
+    env_file:
+      - .env
+
+  # Agent runs interactively; for headless demo you could use a simple runner.
+  # Here we only build; run locally: cd agent && pip install -r requirements.txt && python agent.py
+  agent:
+    build:
+      context: .
+      dockerfile: agent/Dockerfile
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MCP_SERVER_URL=http://mcp_server:8002/mcp
+    depends_on:
+      - mcp_server
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+    command: python agent.py

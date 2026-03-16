@@ -120,6 +120,7 @@ townhall-insights-mcp-demo/
 ### Prerequisites
 
 - Python 3.11+
+- [uv](https://docs.astral.sh/uv/) (for install and run when not using Docker)
 - Node.js 18+ (optional, for the agent demo UI)
 - A Supabase project with `feedback` and `incident` tables
 - OpenAI API key
@@ -149,20 +150,50 @@ This starts:
 - `mcp_server` on `http://localhost:8002`
 - `agent` demo on `http://localhost:8000`
 
-### 4. Run services individually
+### 4. Run services individually (with uv)
+
+Use [uv](https://docs.astral.sh/uv/) for dependency management and running. In each service directory, initialize the project and add dependencies from its `requirements.txt`, then run with `uv run`.
+
+**Initialize and install (once per service):**
+
+In each service directory, run `uv init` to create a `pyproject.toml`, then add dependencies with `uv add` (use the packages from that service’s `requirements.txt`). Example for the Insights API:
 
 ```bash
 # Insights API
-cd insights_api && pip install -r requirements.txt
-uvicorn main:app --port 8001 --reload
+cd insights_api
+uv init
+uv add fastapi "uvicorn[standard]" supabase pydantic httpx python-dotenv scikit-learn vaderSentiment bertopic sentence-transformers statsmodels numpy pandas
 
 # MCP server
-cd mcp_server && pip install -r requirements.txt
-python server.py
+cd ../mcp_server
+uv init
+uv add fastmcp httpx python-dotenv
 
 # Agent
-cd agent && pip install -r requirements.txt
-python agent.py
+cd ../agent
+uv init
+uv add openai-agents python-dotenv
+```
+
+Alternatively, install from the existing `requirements.txt` with uv’s pip interface, then use `uv run` for execution:
+
+```bash
+cd insights_api && uv init && uv pip install -r requirements.txt
+cd ../mcp_server && uv init && uv pip install -r requirements.txt
+cd ../agent && uv init && uv pip install -r requirements.txt
+```
+
+**Run each service** (in separate terminals, from the repo root or the service directory):
+
+```bash
+# Insights API
+cd insights_api && uv run uvicorn main:app --port 8001 --reload
+
+# MCP server
+cd mcp_server && uv run python server.py
+
+# Agent
+cd agent && uv run python agent.py
 ```
 
 ---
