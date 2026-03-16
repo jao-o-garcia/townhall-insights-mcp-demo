@@ -27,13 +27,13 @@ help:
 install: install-api install-mcp install-agent
 
 install-api:
-	cd insights_api && uv pip install -r requirements.txt
+	cd insights_api && uv sync
 
 install-mcp:
-	cd mcp_server && uv pip install -r requirements.txt
+	cd mcp_server && uv sync
 
 install-agent:
-	cd agent && uv pip install -r requirements.txt
+	cd agent && uv sync
 
 # Insights API — port 8001
 run-api:
