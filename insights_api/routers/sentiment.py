@@ -1,8 +1,8 @@
 """Sentiment trends endpoint."""
 from fastapi import APIRouter, Query
-from insights_api.db import fetch_feedback
-from insights_api.ml import aggregate_sentiment
-from insights_api.models import SentimentTrendsResponse, SentimentBucket
+from db import fetch_feedback
+from ml import aggregate_sentiment
+from models import SentimentTrendsResponse, SentimentBucket
 
 router = APIRouter(prefix="/sentiment", tags=["sentiment"])
 

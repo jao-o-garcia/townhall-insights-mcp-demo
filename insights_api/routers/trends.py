@@ -1,8 +1,8 @@
 """Conversation summary and trend endpoints."""
 from collections import defaultdict
 from fastapi import APIRouter, Query
-from insights_api.db import fetch_chatkit_thread_items
-from insights_api.models import ConversationSummaryResponse
+from db import fetch_chatkit_thread_items
+from models import ConversationSummaryResponse
 
 router = APIRouter(prefix="/trends", tags=["trends"])
 

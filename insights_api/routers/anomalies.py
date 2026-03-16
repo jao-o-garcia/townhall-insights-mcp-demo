@@ -1,9 +1,9 @@
 """Anomaly detection endpoint."""
 from collections import defaultdict
 from fastapi import APIRouter, Query
-from insights_api.db import fetch_feedback, fetch_chatkit_thread_items
-from insights_api.ml import detect_anomalies
-from insights_api.models import AnomaliesResponse, AnomalyItem
+from db import fetch_feedback, fetch_chatkit_thread_items
+from ml import detect_anomalies
+from models import AnomaliesResponse, AnomalyItem
 
 router = APIRouter(prefix="/anomalies", tags=["anomalies"])
 

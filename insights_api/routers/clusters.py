@@ -1,8 +1,8 @@
 """Topic clustering endpoint."""
 from fastapi import APIRouter, Query
-from insights_api.db import fetch_feedback
-from insights_api.ml import get_topic_clusters
-from insights_api.models import ClustersResponse, TopicClusterItem
+from db import fetch_feedback
+from ml import get_topic_clusters
+from models import ClustersResponse, TopicClusterItem
 
 router = APIRouter(prefix="/clusters", tags=["clusters"])
 

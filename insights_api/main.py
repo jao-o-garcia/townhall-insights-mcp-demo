@@ -6,7 +6,7 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from insights_api.routers import clusters, sentiment, anomalies, trends
+from routers import clusters, sentiment, anomalies, trends
 
 app = FastAPI(
     title="Town Hall Insights API",
