@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
 
 from tools.topic_clusters import get_topic_clusters
 from tools.sentiment_trends import get_sentiment_trends
@@ -11,7 +11,8 @@ from tools.anomalies import get_anomalies
 from tools.conversation_summary import get_conversation_summary
 from tools.refresh import refresh_insights
 
-mcp = FastMCP("Town Hall Insights", description="Insights from civic feedback and conversations via the Insights API")
+port = int(os.environ.get("MCP_PORT", 8002))
+mcp = FastMCP("Town Hall Insights", host="0.0.0.0", port=port)
 
 
 @mcp.tool(name="get_topic_clusters")
@@ -63,5 +64,4 @@ def refresh_insights_tool() -> str:
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("MCP_PORT", 8002))
-    mcp.run(transport="http", host="127.0.0.1", port=port)
+    mcp.run(transport="sse")
