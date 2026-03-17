@@ -36,8 +36,8 @@ install-agent:
 	cd agent && uv sync
 
 # Insights API — port 8001
-run-api:
-	$(RUN_ENV) && cd insights_api && uv run uvicorn main:app --host 0.0.0.0 --port 8001 --reload
+run-api: #uv run uvicorn main:app --port 8001
+	$(RUN_ENV) && cd insights_api && uv run uvicorn main:app --host 0.0.0.0 --port 8001
 
 # MCP server — port 8002 (INSIGHTS_API_URL should be http://localhost:8001 in .env)
 run-mcp:
